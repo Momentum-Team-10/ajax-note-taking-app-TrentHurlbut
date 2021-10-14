@@ -1,12 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Notes</title>
-</head>
-<body>
-  
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="script.js" defer></script>
+        <title>Notes</title>
+    </head>
+    <body>
+      <body class="avenir pa4">
+        <h1 class="f3 f2-m f1-l fw2 black-90 mv3">From the Desk of Trent Hurlbut</h1>
+        <div class="form-field">
+            <form inote-form" class="pv4" id='note-form'>
+            <input
+            class="pa3 w-100 measure"
+            id="note-text"
+              type="text"
+              placeholder="Enter your note item here"
+              required
+            />
+          </div>
+          <div class="form-field">
+            <button
+              id="save-note"
+              type="submit"
+              class="mt3 f6 ph3 pv2 mb2 dib white bg-dark-blue"
+            >
+              Save Note
+            </button>
+          </div>
+        </form>
+        <section id="notes" class="pa3">
+          <ul id="note-list" class="list pl0 measure"></ul>
+        </section>
+    </body>
 </html>
