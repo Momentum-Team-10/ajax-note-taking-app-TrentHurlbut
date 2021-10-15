@@ -1,29 +1,12 @@
+//VARIABLE DECLARATION
+//fetech() url as a variable for convenience.
 const url = 'http://localhost:3000/notes';
 
-//The UL in HTML that will hold all the notes you add ('li' elements)
+//The UL in HTML that will hold all the notes you add ('li' elements).
 const noteList = document.getElementById('note-list');
 
 //The form element which wraps the entry field.
 const form = document.querySelector('#note-form');
-
-//The function which enacts a removal or edit of a JSON object in the local database after hitting the delete icon.
-noteList.addEventListener('click', (e) => {
-    if (e.target.classList.contains('delete')) {
-        deleteNote(e.target);
-    }
-
-    if (e.target.classList.contains('edit')) {
-        console.log('editing note');
-    }
-});
-
-//The function which listens for the 'submit' button in the form which adds a new JSON object and posts the note.
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const noteText = document.getElementById('note-text').value;
-    createNote(noteText);
-    form.reset();
-});
 
 //The initial rendering of all stored JSON notes on the page.
 function listNotes() {
@@ -36,32 +19,24 @@ function listNotes() {
         });
 }
 
+//FUNCTION DEFINITIONS
 //Note creation function which provides styling for how each note is created.
 function renderNoteItem(noteObj) {
     const li = document.createElement('li');
     li.id = noteObj.id;
-    li.classList.add(
-        'lh-copy',
-        'pv3',
-        'ba',
-        'bl-0',
-        'bt-0',
-        'br-0',
-        'b--dotted',
-        'b--black-3'
-    );
+    li.classList.add('message', 'is-warning');
     renderNoteText(li, noteObj);
     noteList.appendChild(li);
 }
 
 //This is how the text of the note is created and the actual imputing of the HTML element.
 function renderNoteText(li, noteObj) {
-    li.innerHTML = `<span class='dib w-60'>${noteObj.body}</span>${
+    li.innerHTML = `<span class='message-body'>${noteObj.body} </span>${
         noteObj.updated_at
             ? moment(noteObj.updated_at).format('MMM DD, YYYY')
             : ''
     }
-    <i class="ml2 dark-red fas fa-times delete"></i><i class="ml3 fas fa-edit edit"></i>`;
+    <i class="fas fa-ban delete"></i><i class="ml3 fas fa-pen-nib edit"></i>`;
 }
 
 //This is a collection of the above functions when brought together generates a new note after submission.
@@ -79,13 +54,14 @@ function createNote(noteText) {
         .then((data) => renderNoteItem(data));
 }
 
-//This delete function is called when the delete icon is clicked in the above eventListener.
+//This delete function is called when the delete icon is clicked in the below eventListener.
 function deleteNote(noteEl) {
-    fetch(url + '/' + `${noteEl.id}`, {
+    fetch(url + '/' + `${noteEl.parentElement.id}`, {
         method: 'DELETE',
     }).then(() => noteEl.parentElement.remove());
 }
 
+//This is the 'update' function which updates the note when the 'edit' button is clicked in the below eventListener.
 function updateNote(noteEl) {
     const noteText = document.getElementById('note-text').value;
     fetch(url + '/' + `${noteEl.parentElement.id}`, {
@@ -103,5 +79,25 @@ function updateNote(noteEl) {
         });
 }
 
+//FUNCTION CALLS
 //The actual listNotes() function call which displays all stored notes on the page.
 listNotes();
+
+//The function which enacts a removal or edit of a JSON object in the local database after hitting the delete icon.
+noteList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete')) {
+        deleteNote(e.target);
+    }
+
+    if (e.target.classList.contains('edit')) {
+        updateNote(e.target);
+    }
+});
+
+//The function which listens for the 'submit' button in the form which adds a new JSON object and posts the note.
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const noteText = document.getElementById('note-text').value;
+    createNote(noteText);
+    form.reset();
+});
