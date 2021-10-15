@@ -24,19 +24,23 @@ function listNotes() {
 function renderNoteItem(noteObj) {
     const li = document.createElement('li');
     li.id = noteObj.id;
-    li.classList.add('message', 'is-warning');
+    li.classList.add('message', 'is-warning', 'box', 'container', 'level');
     renderNoteText(li, noteObj);
     noteList.appendChild(li);
 }
 
 //This is how the text of the note is created and the actual imputing of the HTML element.
 function renderNoteText(li, noteObj) {
-    li.innerHTML = `<span class='message-body'>${noteObj.body} </span>${
+    li.innerHTML = `<div class='level-left'>
+    <span class='message-body'>${noteObj.body} </span>${
         noteObj.updated_at
-            ? moment(noteObj.updated_at).format('MMM DD, YYYY')
+            ? 'Edited: ' + moment(noteObj.updated_at).format('MMM DD, YYYY')
             : ''
     }
-    <i class="fas fa-ban delete"></i><i class="ml3 fas fa-pen-nib edit"></i>`;
+    </div>
+    <div class='level-right'>
+    <i class="fas fa-trash-alt level-item box" style='margin: 0px 5px 0px 0px;'></i><i class="fas fa-pen-nib edit level-item box"></i>
+    </div>`;
 }
 
 //This is a collection of the above functions when brought together generates a new note after submission.
@@ -56,15 +60,15 @@ function createNote(noteText) {
 
 //This delete function is called when the delete icon is clicked in the below eventListener.
 function deleteNote(noteEl) {
-    fetch(url + '/' + `${noteEl.parentElement.id}`, {
+    fetch(url + '/' + `${noteEl.parentElement.parentElement.id}`, {
         method: 'DELETE',
-    }).then(() => noteEl.parentElement.remove());
+    }).then(() => noteEl.parentElement.parentElement.remove());
 }
 
 //This is the 'update' function which updates the note when the 'edit' button is clicked in the below eventListener.
 function updateNote(noteEl) {
     const noteText = document.getElementById('note-text').value;
-    fetch(url + '/' + `${noteEl.parentElement.id}`, {
+    fetch(url + '/' + `${noteEl.parentElement.parentElement.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -75,7 +79,7 @@ function updateNote(noteEl) {
     })
         .then((res) => res.json())
         .then((data) => {
-            renderNoteText(noteEl.parentElement, data);
+            renderNoteText(noteEl.parentElement.parentElement, data);
         });
 }
 
@@ -85,7 +89,7 @@ listNotes();
 
 //The function which enacts a removal or edit of a JSON object in the local database after hitting the delete icon.
 noteList.addEventListener('click', (e) => {
-    if (e.target.classList.contains('delete')) {
+    if (e.target.classList.contains('fa-trash-alt')) {
         deleteNote(e.target);
     }
 
