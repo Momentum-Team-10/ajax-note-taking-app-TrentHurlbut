@@ -17,8 +17,15 @@
         <title>Notes</title>
     </head>
     <body>
-      <body class="container">
-        <h1 class="title mb-0 box">From the Desk of Trent Hurlbut</h1>
+      <body>
+        <section class="hero is-primary">
+          <div class="hero-body">
+            <h1 class="title">From the Desk of Trent Hurlbut</h1>
+          </div>
+      </section>
+      <br>
+      <br>
+      <div class="container">
         <div class="box">
             <form inote-form" class="" id='note-form'>
             <input
@@ -30,6 +37,7 @@
             />
           </div>
           <div class="">
+            <section class="section is-small">
             <button
               id="save-note"
               type="submit"
@@ -37,10 +45,12 @@
             >
               Save Note
             </button>
+          </section>
           </div>
         </form>
         <section id="notes" class="">
           <ul id="note-list" class="box"></ul>
         </section>
+      </div>
     </body>
 </html>
