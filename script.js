@@ -24,7 +24,15 @@ function listNotes() {
 function renderNoteItem(noteObj) {
     const li = document.createElement('li');
     li.id = noteObj.id;
-    li.classList.add('message', 'is-warning', 'box', 'container', 'level');
+    li.classList.add(
+        'message',
+        'is-warning',
+        'box',
+        'container',
+        'level',
+        'is-flex-wrap-wrap',
+        'is-flex-grow-1'
+    );
     renderNoteText(li, noteObj);
     noteList.appendChild(li);
 }
@@ -32,7 +40,9 @@ function renderNoteItem(noteObj) {
 //This is how the text of the note is created and the actual imputing of the HTML element.
 function renderNoteText(li, noteObj) {
     li.innerHTML = `<div class='level-left'>
-    <span class='message-body'>${noteObj.body} </span>${
+    <p class='message-body is-flex-wrap-wrap' style='max-width: 1100px;'>${
+        noteObj.body
+    } </p>${
         noteObj.updated_at
             ? 'Edited: ' + moment(noteObj.updated_at).format('MMM DD, YYYY')
             : ''
