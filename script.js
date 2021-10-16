@@ -99,12 +99,16 @@ listNotes();
 
 //The function which enacts a removal or edit of a JSON object in the local database after hitting the delete icon.
 noteList.addEventListener('click', (e) => {
+    const noteText = document.getElementById('note-text').value;
+
     if (e.target.classList.contains('fa-trash-alt')) {
         deleteNote(e.target);
     }
 
     if (e.target.classList.contains('edit')) {
-        updateNote(e.target);
+        if (noteText !== '') {
+            updateNote(e.target);
+        }
     }
 });
 
@@ -112,6 +116,9 @@ noteList.addEventListener('click', (e) => {
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const noteText = document.getElementById('note-text').value;
-    createNote(noteText);
-    form.reset();
+
+    if (noteText !== '') {
+        createNote(noteText);
+        form.reset();
+    }
 });
